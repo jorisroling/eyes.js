@@ -53,3 +53,7 @@ sys.puts(inspect('something', "something"));
 sys.puts(inspect("something else"));
 
 sys.puts(inspect(["no color"], null, { styles: false }));
+
+eyes.inspect({
+    default: 1234,
+}, "quoted_reserved_words");
