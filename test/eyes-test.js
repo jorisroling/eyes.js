@@ -27,10 +27,10 @@ var obj = {};
 obj.that = { self: obj };
 obj.self = obj;
 
-eyes.inspect(obj, "circular object");
+eyes.inspect(obj, "circular\nobject");
 eyes.inspect({hello: 'moto'}, "small object");
 eyes.inspect({hello: new(Array)(6) }, "big object");
-eyes.inspect(["hello 'world'", 'hello "world"'], "quotes");
+eyes.inspect(["hello 'world'", 'hello\t"world"'], "quotes");
 eyes.inspect({
     recommendations: [{
         id: 'a7a6576c2c822c8e2bd81a27e41437d8',
