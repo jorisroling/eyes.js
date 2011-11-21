@@ -2,6 +2,7 @@ var sys = require('sys');
 var eyes = require('../lib/eyes');
 
 eyes.inspect({
+	html:true,
     number: 42,
     string: "John Galt",
     regexp: /[a-z]+/,
@@ -47,7 +48,7 @@ eyes.inspect({
 }, 'complex');
 
 
-var inspect = eyes.inspector({ stream: null });
+var inspect = eyes.inspector({ stream: null,html:true });
 
 sys.puts(inspect('something', "something"));
 sys.puts(inspect("something else"));
@@ -57,3 +58,7 @@ sys.puts(inspect(["no color"], null, { styles: false }));
 eyes.inspect({
     default: 1234,
 }, "quoted_reserved_words");
+
+
+inspect_html = eyes.inspector({ html:true });
+inspect_html('<i>Joris</i>=<b>GEK</b>');
