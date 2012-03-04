@@ -11,7 +11,8 @@ eyes.inspect({
     bool: false,
     nil: null,
     undef: undefined,
-    object: {attr: []}
+    object: {attr: []},
+	buffer: new Buffer('joris'),
 }, "native types");
 
 eyes.inspect({
