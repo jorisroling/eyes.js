@@ -1,8 +1,7 @@
-var sys = require('sys');
+var util = require('util');
 var eyes = require('../lib/eyes');
 
 eyes.inspect({
-	html:true,
     number: 42,
     string: "John Galt",
     regexp: /[a-z]+/,
@@ -11,8 +10,7 @@ eyes.inspect({
     bool: false,
     nil: null,
     undef: undefined,
-    object: {attr: []},
-	buffer: new Buffer('joris'),
+    object: {attr: []}
 }, "native types");
 
 eyes.inspect({
@@ -29,10 +27,10 @@ var obj = {};
 obj.that = { self: obj };
 obj.self = obj;
 
-eyes.inspect(obj, "circular\nobject");
+eyes.inspect(obj, "circular object");
 eyes.inspect({hello: 'moto'}, "small object");
 eyes.inspect({hello: new(Array)(6) }, "big object");
-eyes.inspect(["hello 'world'", 'hello\t"world"'], "quotes");
+eyes.inspect(["hello 'world'", 'hello "world"'], "quotes");
 eyes.inspect({
     recommendations: [{
         id: 'a7a6576c2c822c8e2bd81a27e41437d8',
@@ -48,18 +46,52 @@ eyes.inspect({
     }]
 }, 'complex');
 
+eyes.inspect([null], "null in array");
 
-var inspect = eyes.inspector({ stream: null,html:true });
+var inspect = eyes.inspector({ stream: null });
 
-sys.puts(inspect('something', "something"));
-sys.puts(inspect("something else"));
+util.puts(inspect('something', "something"));
+util.puts(inspect("something else"));
 
-sys.puts(inspect(["no color"], null, { styles: false }));
+util.puts(inspect(["no color"], null, { styles: false }));
+
+eyes.inspect('This String is truncated completely', 'String truncated completely', { maxStringLength: 0 });
+eyes.inspect('This String is way too long', 'String too long', { maxStringLength: 12 });
+eyes.inspect('This String is exactly right', 'String exactly short enough', { maxStringLength: 29 });
+eyes.inspect('This String is short enough', 'String is shorter', { maxStringLength: 30 });
+
+eyes.inspect(['a', 'b', 'c'], 'Array short enough', { maxArrayLength: 4 });
+eyes.inspect(['a', 'b', 'c'], 'Array exactly short enough', { maxArrayLength: 3 });
+eyes.inspect(['a', 'b', 'c'], 'Array length too long', { maxArrayLength: 2 });
+eyes.inspect(['a', 'b', 'c'], 'Array length too long', { maxArrayLength: 1 });
+eyes.inspect(['a', 'b', 'c'], 'Array trunctated completely', { maxArrayLength: 0 });
+
+eyes.inspect({ 'a': 'A', 'b': 'B', 'c': 'C' }, 'Object short enough', { maxObjectKeys: 4 });
+eyes.inspect({ 'a': 'A', 'b': 'B', 'c': 'C' }, 'Object exactly short enough', { maxObjectKeys: 3 });
+eyes.inspect({ 'a': 'A', 'b': 'B', 'c': 'C' }, 'Object has too many keys', { maxObjectKeys: 2 });
+eyes.inspect({ 'a': 'A', 'b': 'B', 'c': 'C' }, 'Object has too many keys', { maxObjectKeys: 1 });
+eyes.inspect({ 'a': 'A', 'b': 'B', 'c': 'C' }, 'Object truncated completely', { maxObjectKeys: 0 });
+
+eyes.inspect(1234567890, 'Number too long', { maxStringLength: 6 });
 
 eyes.inspect({
-    default: 1234,
-}, "quoted_reserved_words");
-
-
-inspect_html = eyes.inspector({ html:true });
-inspect_html('<i>Joris</i>=<b>GEK</b>');
+    name:  "Something about ogres",
+    story: "Once upon a time, in a land far far away.",
+    tags: [
+        "ogres",
+        "donkey",
+        "fairytail",
+        "prince",
+        "evil"
+    ],
+    related: [
+        "A story about an angry prince and his quest to rule the land"
+    ],
+    link: "http://farfaraway.ff"
+},
+'Combination truncated',
+{
+    maxObjectKeys: 4,
+    maxArrayLength: 2,
+    maxStringLength: 39
+});
